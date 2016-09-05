@@ -1,6 +1,5 @@
 import csv, sys
 from collections import defaultdict
-from csvkit import *
 
 Source_COLS = [
     'legalname',
@@ -47,7 +46,7 @@ Source_COLS = [
     'Y_LAT',
     'Pay_Agreement',
     'Agree_Agency',
-    'Agree_Org',
+        'Agree_Org',
     'Agree_Status',
     'SEQUESTRATION',
     'Bankruptcy',
@@ -62,4 +61,23 @@ Source_COLS = [
     'APPEAL'
 ]
 
-#reader = csv.reader((exclude_null_bytes(line) for line in sys.stdin), delimiter='|')
+
+def hyphenate(num):
+    '''format a string with hyphens'''
+    nums = str(num)
+    return '{}-{}-{}'.format(nums[0:4], nums[4:6], nums[6:])
+
+
+print hyphenate(20141231)
+
+def reader(filename, d='|'):
+    data = []
+    with open(filename) as tsvin:
+        tax = csv.reader(tsvin, delimiter=d)
+        for line in tax:
+            data.append(line)
+    return data
+
+# raw = reader('./input/sample.txt')
+
+print raw
