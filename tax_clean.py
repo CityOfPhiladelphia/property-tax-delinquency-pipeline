@@ -68,7 +68,7 @@ def hyphenate(num):
     return '{}-{}-{}'.format(nums[0:4], nums[4:6], nums[6:])
 
 
-print hyphenate(20141231)
+#print hyphenate(20141231)
 
 def reader(filename, d='|'):
     data = []
@@ -78,6 +78,6 @@ def reader(filename, d='|'):
             data.append(line)
     return data
 
-# raw = reader('./input/sample.txt')
+raw = reader('./input/sample.txt')
 
-print raw
+#print raw
