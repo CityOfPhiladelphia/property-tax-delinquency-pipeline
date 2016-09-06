@@ -1,5 +1,6 @@
 import petl as etl
 
+# import dataset
 table = etl.fromcsv()
 
 def hyphenate(num):
@@ -10,11 +11,12 @@ def hyphenate(num):
     except:
         print "error"
 
+# apply hyphenate to select cols.
 clean = table.convert("mostRecentYearOwed", hyphenate)\
                       .convert("oldestYearOwed", hyphenate)\
                       .convert("mostRecentPaymentDate", hyphenate)\
                       .convert("CollectionAgency#mostRecentYear", hyphenate)\
                       .convert("CollectionAgency#oldestYear", hyphenate)
 
-
+# export conversion to csv
 etl.tocsv(clean, './output/out.csv')
