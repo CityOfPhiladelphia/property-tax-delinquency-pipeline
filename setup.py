@@ -5,5 +5,5 @@ setup(
     version='1.0.0',
     packages=['phl_delinquents'],
     install_requires=['petl'],
-    scripts=['tax_clean.py']
+    scripts=['delq_clean.py']
     )
