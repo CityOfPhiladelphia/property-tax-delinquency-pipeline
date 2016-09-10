@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import petl as etl
 
 # import dataset
@@ -18,5 +20,5 @@ clean = table.convert("mostRecentYearOwed", hyphenate)\
                       .convert("CollectionAgency#mostRecentYear", hyphenate)\
                       .convert("CollectionAgency#oldestYear", hyphenate)
 
-# export conversion to csv
-etl.tocsv(clean, './output/out.csv')
+# export transormation to csv
+etl.tocsv(clean)
