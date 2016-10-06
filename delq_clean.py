@@ -1,24 +1,54 @@
 #!/usr/bin/env python
 
-import petl as etl
+from __future__ import print_function
+import petl
+import phl_delinquents
+import sys
 
-# import dataset
-table = etl.fromcsv()
+import logging
 
-def hyphenate(num):
+
+# Import dataset
+table = petl.fromcsv(delimiter='|')
+
+
+# Verify sure that the header is as we expect
+header = tuple(name.strip() for name in table.header())
+if header != phl_delinquents.ORIGINAL_HEADER:
+    logging.error('Unexpected table header: {}'.format(header))
+    sys.exit(1)
+
+
+# Apply the transformations:
+# 1) replace the header.
+# 2) replace occurrences of "NULL" with None.
+# 3) apply hyphenate to select cols.
+
+def hyphenate(dtstr):
     '''format a string with hyphens'''
-    try:
-        nums = str(num)
-        return '{}-{}-{}'.format(nums[0:4], nums[4:6], nums[6:])
-    except:
-        print "error"
+    if dtstr and len(dtstr) > 6:
+        assert 1 <= int(dtstr[4:6]) <= 12
+        return '{}-{}-{}'.format(dtstr[0:4], dtstr[4:6], dtstr[6:])
+    else:
+        return dtstr
 
-# apply hyphenate to select cols.
-clean = table.convert("mostRecentYearOwed", hyphenate)\
-                      .convert("oldestYearOwed", hyphenate)\
-                      .convert("mostRecentPaymentDate", hyphenate)\
-                      .convert("CollectionAgency#mostRecentYear", hyphenate)\
-                      .convert("CollectionAgency#oldestYear", hyphenate)
+def NULL_to_None(val):
+    '''Convert "NULL" values to None.'''
+    return None if val == 'NULL' else val
 
-# export transormation to csv
-etl.tocsv(clean)
+clean = table.setheader(phl_delinquents.CLEAN_HEADER)\
+             .convert(phl_delinquents.CLEAN_HEADER, 'strip')\
+             .convert(phl_delinquents.CLEAN_HEADER, NULL_to_None)\
+             .convert(("most_recent_year_owed",
+                       "oldest_year_owed",
+                       "most_recent_payment_date",
+                       "collection_agency_most_recent",
+                       "collection_agency_oldest_year",
+                       "bankruptcy_max",
+                       "bankruptcy_min"), hyphenate)\
+             .addfield('shape', None)
+
+
+
+# Export transormation to csv
+clean.tocsv()
