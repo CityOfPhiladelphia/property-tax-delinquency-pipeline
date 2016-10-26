@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import petl
-import phl_delinquents
+import phila_delinquents
 import sys
 
 import logging
@@ -14,7 +14,7 @@ table = petl.fromcsv(delimiter='|')
 
 # Verify sure that the header is as we expect
 header = tuple(name.strip() for name in table.header())
-if header != phl_delinquents.ORIGINAL_HEADER:
+if header != phila_delinquents.ORIGINAL_HEADER:
     logging.error('Unexpected table header: {}'.format(header))
     sys.exit(1)
 
@@ -36,9 +36,9 @@ def NULL_to_None(val):
     '''Convert "NULL" values to None.'''
     return None if val == 'NULL' else val
 
-clean = table.setheader(phl_delinquents.CLEAN_HEADER)\
-             .convert(phl_delinquents.CLEAN_HEADER, 'strip')\
-             .convert(phl_delinquents.CLEAN_HEADER, NULL_to_None)\
+clean = table.setheader(phila_delinquents.CLEAN_HEADER)\
+             .convert(phila_delinquents.CLEAN_HEADER, 'strip')\
+             .convert(phila_delinquents.CLEAN_HEADER, NULL_to_None)\
              .convert(("most_recent_year_owed",
                        "oldest_year_owed",
                        "most_recent_payment_date",
