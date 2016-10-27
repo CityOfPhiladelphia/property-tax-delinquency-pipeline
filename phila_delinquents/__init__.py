@@ -120,12 +120,12 @@ CLEAN_HEADER = (
     'appeal',
 )
 
-DB_TABLE = 'TaxDelinquencyFC'
+DB_TABLE = 'TaxDelinquency'
 
 GEOCODE_SQL = '''
-    UPDATE TaxDelinquencyFC
-    SET shape = (
-        SELECT shape FROM address_summary
+    UPDATE TaxDelinquency
+    SET (shape, property_address) = (
+        SELECT shape, street_address FROM GIS_AIS.address_summary
         WHERE opa_account = opanumber
         AND ROWNUM = 1
     )
