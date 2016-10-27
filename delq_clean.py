@@ -45,10 +45,9 @@ clean = table.setheader(phila_delinquents.CLEAN_HEADER)\
                        "collection_agency_most_recent",
                        "collection_agency_oldest_year",
                        "bankruptcy_max",
-                       "bankruptcy_min"), hyphenate)\
-             .addfield('shape', None)
+                       "bankruptcy_min"), hyphenate)
 
 
 
 # Export transormation to csv
-clean.tocsv()
+clean.progress().tocsv()
