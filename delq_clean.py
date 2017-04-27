@@ -6,6 +6,7 @@ import phila_delinquents
 import sys
 import unicodecsv
 
+import goodtables
 import logging
 
 
@@ -15,11 +16,9 @@ if rows[0][0].startswith(u'\ufeff'):
     rows[0][0] = rows[0][0][1:]
 table = petl.wrap(rows)
 
-# Verify sure that the header is as we expect
-for name in table.header():
-    print(name)
+# Verify that the header is as we expect
 header = tuple(name.strip() for name in table.header())
-if header != phila_delinquents.HEADER:
+if header != phila_delinquents.ORIGINAL_HEADER:
     logging.error('Unexpected table header: {}'.format(header))
     sys.exit(1)
 
@@ -41,17 +40,31 @@ def NULL_to_None(val):
     '''Convert "NULL" values to None.'''
     return None if val == 'NULL' else val
 
-clean = table.setheader(phila_delinquents.HEADER)\
-             .convert(phila_delinquents.HEADER, 'strip')\
-             .convert(phila_delinquents.HEADER, NULL_to_None)\
-             .convert(("Most_Recent_Yr_Owed",
-                       "Oldest_Yr_Owed",
-                       "Most_Recent_Payment_Date",
-                       "Coll_Agency_Most_Recent_Yr",
-                       "Coll_Agency_Oldest_Yr",
-                       "Most_Recent_Bankrupt_Yr",
-                       "Yr_of_Last_Assessment",
-                       "Oldest_Bankrupt_Yr"), hyphenate)
+def extract_year(val):
+    '''Convert EOY date to just a 4 digit year'''
+    return val[0:4] if val else val
+
+def normalize_philadelphia(val):
+    if val == "PHILA":
+        return "PHILADELPHIA"
+    else:
+        return val
+
+clean = table.setheader(phila_delinquents.CLEAN_HEADER)\
+             .convert(phila_delinquents.CLEAN_HEADER, 'strip')\
+             .convert(phila_delinquents.CLEAN_HEADER, NULL_to_None)\
+             .convert(("most_recent_year_owed",
+                      "oldest_year_owed",
+                      "collection_agency_most_recent_year",
+                      "collection_agency_oldest_year",
+                      "most_recent_bankrupt_year",
+                      "oldest_bankrupt_year"), extract_year)\
+             .convert(("most_recent_payment_date",), hyphenate)\
+             .convert(("city",
+                       "mailing_city"), normalize_philadelphia)\
+             .convert(('bankruptcy',), lambda x: True if x == "bankrupt" else False)\
+             .convert(('liens_sold_2015',), lambda x: None if x == "N" else x)
 
 # Export transormation to csv
 clean.progress().tocsv()
+
