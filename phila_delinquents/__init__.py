@@ -38,7 +38,7 @@ ORIGINAL_HEADER = (
     'Mailing_State',
     'Mailing_Zip',
     'Council_District',
-    'x_Long',
+    'X_Long',
     'Y_Lat',
     'Payment_Agreement',
     'Agreement_Agency',
