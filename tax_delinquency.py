@@ -105,7 +105,7 @@ def cleanup_row(row):
         raise FinishException()
 
     out = []
-    for i in range(0, len(row) - 1):
+    for i in range(0, len(row)):
         field = row[i]
         field = field.strip()
         if field == '':
@@ -118,11 +118,12 @@ def cleanup_row(row):
             elif key in date_fields:
                 field = datetime.strptime(field, '%Y%m%d').strftime('%Y-%m-%d')
             elif key in boolean_fields:
-                if field == 'Y':
+                if field == 'Y' or field == 'bankrupt' or field == 'yes':
                     field = 'true'
                 else:
                     field = 'false'
         out.append(field)
+
     return out
 
 transformer = None
@@ -168,7 +169,7 @@ def cleanup():
     """
     Normalizes headers, trims text, normalizes dates / years, normalizes booleans
     """
-    #         
+
     try:
         petl\
         .fromcsv(delimiter='|')\
