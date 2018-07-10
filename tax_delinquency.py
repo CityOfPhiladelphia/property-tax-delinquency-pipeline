@@ -1,5 +1,6 @@
 from datetime import datetime
 from functools import partial
+from collections import OrderedDict
 import logging
 import sys
 
@@ -14,58 +15,59 @@ formatter = logging.Formatter('[%(asctime)-15s] %(levelname)s [%(name)s] %(messa
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-header_map = {
-    '\ufeffOwner': 'owner',
-    'OPA_Number': 'opa_number',
-    'Principal_Due': 'principal_due',
-    'Penalty_Due': 'penalty_due',
-    'Interest_Due': 'interest_due',
-    'Other_Charges_Due': 'other_charges_due',
-    'Total_Due': 'total_due',
-    'Num_Yrs_Owed': 'num_years_owed',
-    'Most_Recent_Yr_Owed': 'most_recent_year_owed',
-    'Oldest_Yr_Owed': 'oldest_year_owed',
-    'Most_Recent_Payment_Date': 'most_recent_payment_date',
-    'Return_Mail': 'return_mail',
-    'Coll_Agency_Num_Yrs': 'coll_agency_num_years',
-    'Coll_Agency_Most_Recent_Yr': 'coll_agency_most_recent_year',
-    'Coll_Agency_Oldest_Yr': 'coll_agency_oldest_year',
-    'Coll_Agency_Principal_Owed': 'coll_agency_principal_owed',
-    'Coll_Agency_Total_Owed': 'coll_agency_total_owed',
-    'Yr_of_Last_Assessment': 'year_of_last_assessment',
-    'Total_Assessment': 'total_assessment',
-    'Taxable_Assessment': 'taxable_assessment',
-    'Exempt_Abate_Assessment': 'exempt_abatement_assessment',
-    'Homestead_Value': 'homestead_value',
-    'Net_Tax_Value_After_Hmstd': 'net_tax_value_after_homestead',
-    'Building_Code': 'building_code',
-    'Detail_Bld_Description': 'detail_building_description',
-    'General_Building_Description': 'general_building_description',
-    'Building_Category': 'building_category',
-    'Co_owner': 'co_owner',
-    'Mailing_Address': 'mailing_address',
-    'Mailing_City': 'mailing_city',
-    'Mailing_State': 'mailing_state',
-    'Mailing_Zip': 'mailing_zip',
-    'Payment_Agreement': 'payment_agreement',
-    'Agreement_Agency': 'agreement_agency',
-    'Sequestration_Enforcement': 'sequestration_enforcement',
-    'Bankruptcy': 'bankruptcy',
-    'Yrs_in_Bankruptcy': 'years_in_bankruptcy',
-    'Most_Recent_Bankrupt_Yr': 'most_recent_bankrupt_year',
-    'Oldest_Bankrupt_Yr': 'oldest_bankrupt_year',
-    'Principal_Sum_Bankrupt_Yrs': 'principal_sum_bankrupt_years',
-    'Total_Amount_Bankrupt_Yrs': 'total_amount_bankrupt_years',
-    'Sheriff_Sale': 'sheriff_sale',
-    'Liens_Sold_1990s': 'liens_sold_1990s',
-    'Liens_Sold_2015': 'liens_sold_2015',
-    'Assessment_Under_Appeal': 'assessment_under_appeal',
+header_map = OrderedDict([
+    ('OPA_Number', 'opa_number'),
+    ('Owner', 'owner'),
+    ('Co_owner', 'co_owner'),
+    ('Principal_Due', 'principal_due'),
+    ('Penalty_Due', 'penalty_due'),
+    ('Interest_Due', 'interest_due'),
+    ('Other_Charges_Due', 'other_charges_due'),
+    ('Total_Due', 'total_due'),
+    ('\ufeffIs_Actionable', 'is_actionable'),
+    ('Payment_Agreement', 'payment_agreement'),
+    ('Num_Yrs_Owed', 'num_years_owed'),
+    ('Most_Recent_Yr_Owed', 'most_recent_year_owed'),
+    ('Oldest_Yr_Owed', 'oldest_year_owed'),
+    ('Most_Recent_Payment_Date', 'most_recent_payment_date'),
+    ('Yr_of_Last_Assessment', 'year_of_last_assessment'),
+    ('Total_Assessment', 'total_assessment'),
+    ('Taxable_Assessment', 'taxable_assessment'),
+    ('Mailing_Address', 'mailing_address'),
+    ('Mailing_City', 'mailing_city'),
+    ('Mailing_State', 'mailing_state'),
+    ('Mailing_Zip', 'mailing_zip'),
+    ('Return_Mail', 'return_mail'),
+    ('Building_Code', 'building_code'),
+    ('Detail_Bld_Description', 'detail_building_description'),
+    ('General_Building_Description', 'general_building_description'),
+    ('Building_Category', 'building_category'),
+    ('Coll_Agency_Num_Yrs', 'coll_agency_num_years'),
+    ('Coll_Agency_Most_Recent_Yr', 'coll_agency_most_recent_year'),
+    ('Coll_Agency_Oldest_Yr', 'coll_agency_oldest_year'),
+    ('Coll_Agency_Principal_Owed', 'coll_agency_principal_owed'),
+    ('Coll_Agency_Total_Owed', 'coll_agency_total_owed'),
+    ('Exempt_Abate_Assessment', 'exempt_abatement_assessment'),
+    ('Homestead_Value', 'homestead_value'),
+    ('Net_Tax_Value_After_Hmstd', 'net_tax_value_after_homestead'),
+    ('Agreement_Agency', 'agreement_agency'),
+    ('Sequestration_Enforcement', 'sequestration_enforcement'),
+    ('Bankruptcy', 'bankruptcy'),
+    ('Yrs_in_Bankruptcy', 'years_in_bankruptcy'),
+    ('Most_Recent_Bankrupt_Yr', 'most_recent_bankrupt_year'),
+    ('Oldest_Bankrupt_Yr', 'oldest_bankrupt_year'),
+    ('Principal_Sum_Bankrupt_Yrs', 'principal_sum_bankrupt_years'),
+    ('Total_Amount_Bankrupt_Yrs', 'total_amount_bankrupt_years'),
+    ('Sheriff_Sale', 'sheriff_sale'),
+    ('Liens_Sold_1990s', 'liens_sold_1990s'),
+    ('Liens_Sold_2015', 'liens_sold_2015'),
+    ('Assessment_Under_Appeal', 'assessment_under_appeal'),
     ## original address fields, to be replaced by geocoding
-    'Property_Address': 'orig_property_address',
-    'Zip_Code': 'orig_zip_code',
-    'X_Long': 'orig_lon',
-    'Y_Lat': 'orig_lat'
-}
+    ('Property_Address', 'orig_property_address'),
+    ('Zip_Code', 'orig_zip_code'),
+    ('X_Long', 'orig_lon'),
+    ('Y_Lat', 'orig_lat')
+])
 
 year_fields = ['coll_agency_most_recent_year',
                'coll_agency_oldest_year',
@@ -76,7 +78,8 @@ year_fields = ['coll_agency_most_recent_year',
 
 date_fields = ['most_recent_payment_date']
 
-boolean_fields = ['return_mail',
+boolean_fields = ['is_actionable',
+                  'return_mail',
                   'payment_agreement',
                   'sequestration_enforcement',
                   'bankruptcy',
@@ -176,7 +179,6 @@ def cleanup():
         .cut(*list(header_map.keys()))\
         .rename(header_map)\
         .rowmap(cleanup_row, list(header_map.values()), failonerror=True)\
-        .sortheader()\
         .tocsv()
     except FinishException:
         pass
@@ -195,18 +197,27 @@ def merge_geocodes():
         pyproj.Proj(init='EPSG:4326')
     )
 
-    headers = sorted(list(header_map.values()))
+    headers = list(header_map.values())
 
-    final_headers = list(headers)
-    for header in orig_address_fields:
-        final_headers.remove(header)
-    final_headers += ais_fields + ['shape']
+    final_headers = [
+        'opa_number',
+        'street_address',
+        'zip_code',
+        'zip_4',
+        'unit_type',
+        'unit_num'
+    ]
+
+    for header in headers:
+        if header == 'opa_number' or header in orig_address_fields:
+            continue
+        final_headers.append(header)
+    final_headers += ['lat', 'lon', 'shape']
 
     petl\
     .fromcsv()\
     .rowmap(merge_geocodes_row, headers + ais_fields + ['shape'], failonerror=True)\
     .cut(*final_headers)\
-    .sortheader()\
     .tocsv()
 
 if __name__ == '__main__':
