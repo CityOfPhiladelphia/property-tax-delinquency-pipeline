@@ -20,7 +20,7 @@ First run the cleanup command:
 cat raw_tax_delinquency_data.txt | python tax_delinquency.py cleanup > tax_delinquency_clean.csv
 ```
 
-Then run it through the [batch-geocoder]() using the AIS geocoder:
+Then run it through the [batch-geocoder](https://github.com/CityOfPhiladelphia/batch-geocoder) using the AIS geocoder:
 
 ```bash
 cat tax_delinquency_clean.csv | batch_geocoder ais --ais-url http://ais.example.com --query-fields opa_number --ais-fields lat,lon,street_address,zip_code,zip_4,unit_type,unit_num > tax_delinquency_geocoded.csv
