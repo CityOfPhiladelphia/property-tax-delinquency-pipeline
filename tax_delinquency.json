@@ -1,0 +1,267 @@
+{
+  "missingValues": [
+    "NULL",
+    ""
+  ],
+  "fields": [
+    {
+      "name": "opa_number",
+      "type": "integer"
+    },
+    {
+      "name": "street_address",
+      "type": "string"
+    },
+    {
+      "name": "zip_code",
+      "type": "integer"
+    },
+    {
+      "name": "zip_4",
+      "type": "integer"
+    },
+    {
+      "name": "unit_type",
+      "type": "string"
+    },
+    {
+      "name": "unit_num",
+      "type": "string"
+    },
+    {
+      "name": "owner",
+      "type": "string"
+    },
+    {
+      "name": "co_owner",
+      "type": "string"
+    },
+    {
+      "name": "principal_due",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "penalty_due",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "interest_due",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "other_charges_due",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "total_due",
+      "type": "number",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "is_actionable",
+      "type": "boolean"
+    },
+    {
+      "name": "payment_agreement",
+      "type": "boolean"
+    },
+    {
+      "name": "num_years_owed",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "most_recent_year_owed",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "oldest_year_owed",
+      "type": "integer",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "most_recent_payment_date",
+      "type": "date"
+    },
+    {
+      "name": "year_of_last_assessment",
+      "type": "integer"
+    },
+    {
+      "name": "total_assessment",
+      "type": "integer"
+    },
+    {
+      "name": "taxable_assessment",
+      "type": "integer"
+    },
+    {
+      "name": "mailing_address",
+      "type": "string"
+    },
+    {
+      "name": "mailing_city",
+      "type": "string"
+    },
+    {
+      "name": "mailing_state",
+      "type": "string"
+    },
+    {
+      "name": "mailing_zip",
+      "type": "string"
+    },
+    {
+      "name": "return_mail",
+      "type": "boolean"
+    },
+    {
+      "name": "building_code",
+      "type": "string"
+    },
+    {
+      "name": "detail_building_description",
+      "type": "string"
+    },
+    {
+      "name": "general_building_description",
+      "type": "string"
+    },
+    {
+      "name": "building_category",
+      "type": "string"
+    },
+    {
+      "name": "coll_agency_num_years",
+      "type": "integer"
+    },
+    {
+      "name": "coll_agency_most_recent_year",
+      "type": "integer"
+    },
+    {
+      "name": "coll_agency_oldest_year",
+      "type": "integer"
+    },
+    {
+      "name": "coll_agency_principal_owed",
+      "type": "number"
+    },
+    {
+      "name": "coll_agency_total_owed",
+      "type": "number"
+    },
+    {
+      "name": "exempt_abatement_assessment",
+      "type": "integer"
+    },
+    {
+      "name": "homestead_value",
+      "type": "number"
+    },
+    {
+      "name": "net_tax_value_after_homestead",
+      "type": "number"
+    },
+    {
+      "name": "agreement_agency",
+      "type": "string"
+    },
+    {
+      "name": "sequestration_enforcement",
+      "type": "boolean",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "bankruptcy",
+      "type": "boolean",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "years_in_bankruptcy",
+      "type": "integer"
+    },
+    {
+      "name": "most_recent_bankrupt_year",
+      "type": "integer"
+    },
+    {
+      "name": "oldest_bankrupt_year",
+      "type": "integer"
+    },
+    {
+      "name": "principal_sum_bankrupt_years",
+      "type": "number"
+    },
+    {
+      "name": "total_amount_bankrupt_years",
+      "type": "number"
+    },
+    {
+      "name": "sheriff_sale",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "liens_sold_1990s",
+      "type": "boolean",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "liens_sold_2015",
+      "type": "string",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "assessment_under_appeal",
+      "type": "boolean",
+      "constraints": {
+        "required": true
+      }
+    },
+    {
+      "name": "lat",
+      "type": "number"
+    },
+
+    {
+      "name": "lon",
+      "type": "number"
+    },
+    {
+      "name": "shape",
+      "type": "geojson"
+    }
+  ]
+}
