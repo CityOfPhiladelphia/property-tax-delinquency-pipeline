@@ -135,7 +135,7 @@ geom_template = '{{"crs": {{"type": "name", "properties": {{"name": "EPSG:4326"}
 
 def merge_geocodes_row(row):
     out = list(row)
-    if (not row['street_address'] or row['street_address'] == '') and row['orig_property_address'] != 'NULL':
+    if (not row['street_address'] or row['street_address'] == '' or not row['lat'] or row['lat'] == '') and row['orig_property_address'] != 'NULL':
         logger.info('`{}` not geocoded. Reverting to original info'.format(row['opa_number']))
 
         out[row.flds.index('street_address')] = row['orig_property_address']
